@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if action == 'create' %}Create Appointment{% else %}Edit Appointment{% endif %}</h2>
+<form method="post">
+    <label>Caregiver:
+        <select name="caregiver_user_id" required>
+            {% for c in caregivers %}
+            <option value="{{ c.caregiver_user_id }}"
+                {% if appointment and appointment.caregiver_user_id == c.caregiver_user_id %}selected{% endif %}>
+                {{ c.caregiver_user_id }} - {{ c.user.given_name }} {{ c.user.surname }}
+            </option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <label>Member:
+        <select name="member_user_id" required>
+            {% for m in members %}
+            <option value="{{ m.member_user_id }}"
+                {% if appointment and appointment.member_user_id == m.member_user_id %}selected{% endif %}>
+                {{ m.member_user_id }} - {{ m.user.given_name }} {{ m.user.surname }}
+            </option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <label>Date:
+        <input type="date" name="appointment_date" value="{{ appointment.appointment_date if appointment and appointment.appointment_date else '' }}">
+    </label><br>
+
+    <label>Time:
+        <input type="time" name="appointment_time" value="{{ appointment.appointment_time if appointment and appointment.appointment_time else '' }}">
+    </label><br>
+
+    <label>Work hours:
+        <input type="number" name="work_hours" value="{{ appointment.work_hours if appointment else '' }}">
+    </label><br>
+
+    <label>Status:
+    <select name="status">
+        <option value="PENDING"
+            {% if appointment and appointment.status == 'PENDING' %}selected{% endif %}>
+            PENDING
+        </option>
+        <option value="ACCEPTED"
+            {% if appointment and appointment.status == 'ACCEPTED' %}selected{% endif %}>
+            ACCEPTED
+        </option>
+        <option value="DECLINED"
+            {% if appointment and appointment.status == 'DECLINED' %}selected{% endif %}>
+            DECLINED
+        </option>
+    </select>
+</label><br><br>
+
+
+    <button type="submit">Save</button>
+    <a href="{{ url_for('list_appointments') }}">Cancel</a>
+</form>
+{% endblock %}

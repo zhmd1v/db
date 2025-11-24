@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Members</h2>
+<a href="{{ url_for('create_member') }}">Create member</a>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>User ID</th><th>Name</th><th>House rules</th><th>Dependent description</th><th>Actions</th>
+    </tr>
+    {% for m in members %}
+    <tr>
+        <td>{{ m.member_user_id }}</td>
+        <td>{{ m.user.given_name }} {{ m.user.surname }}</td>
+        <td>{{ m.house_rules }}</td>
+        <td>{{ m.dependent_description }}</td>
+        <td>
+            <a href="{{ url_for('edit_member', member_user_id=m.member_user_id) }}">Edit</a>
+            <form action="{{ url_for('delete_member', member_user_id=m.member_user_id) }}"
+                  method="post" style="display:inline">
+                <button type="submit" onclick="return confirm('Delete member?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

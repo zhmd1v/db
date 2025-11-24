@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Caregivers</h2>
+<a href="{{ url_for('create_caregiver') }}">Create caregiver</a>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>User ID</th><th>Name</th><th>Type</th><th>Gender</th><th>Hourly Rate</th><th>Actions</th>
+    </tr>
+    {% for c in caregivers %}
+    <tr>
+        <td>{{ c.caregiver_user_id }}</td>
+        <td>{{ c.user.given_name }} {{ c.user.surname }}</td>
+        <td>{{ c.caregiving_type }}</td>
+        <td>{{ c.gender }}</td>
+        <td>{{ c.hourly_rate }}</td>
+        <td>
+            <a href="{{ url_for('edit_caregiver', caregiver_user_id=c.caregiver_user_id) }}">Edit</a>
+            <form action="{{ url_for('delete_caregiver', caregiver_user_id=c.caregiver_user_id) }}"
+                  method="post" style="display:inline">
+                <button type="submit" onclick="return confirm('Delete caregiver?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

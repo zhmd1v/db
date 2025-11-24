@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if action == 'create' %}Create User{% else %}Edit User{% endif %}</h2>
+<form method="post">
+    <label>Email:
+        <input type="email" name="email" value="{{ user.email if user else '' }}" required>
+    </label><br>
+
+    <label>Given name:
+        <input type="text" name="given_name" value="{{ user.given_name if user else '' }}" required>
+    </label><br>
+
+    <label>Surname:
+        <input type="text" name="surname" value="{{ user.surname if user else '' }}" required>
+    </label><br>
+
+    <label>City:
+        <input type="text" name="city" value="{{ user.city if user else '' }}">
+    </label><br>
+
+    <label>Phone:
+        <input type="text" name="phone_number" value="{{ user.phone_number if user else '' }}">
+    </label><br>
+
+    <label>Profile description:<br>
+        <textarea name="profile_description" rows="3" cols="40">{{ user.profile_description if user else '' }}</textarea>
+    </label><br>
+
+    <label>Password:
+        <input type="text" name="password" value="{{ user.password if user else '' }}" required>
+    </label><br><br>
+
+    <button type="submit">Save</button>
+    <a href="{{ url_for('list_users') }}">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if action == 'create' %}Create Caregiver{% else %}Edit Caregiver{% endif %}</h2>
+<form method="post">
+    {% if action == 'create' %}
+    <label>Linked User:
+        <select name="caregiver_user_id" required>
+            {% for u in users %}
+            <option value="{{ u.user_id }}">{{ u.user_id }} - {{ u.given_name }} {{ u.surname }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+    {% else %}
+    <p>User ID: {{ caregiver.caregiver_user_id }} ({{ caregiver.user.given_name }} {{ caregiver.user.surname }})</p>
+    {% endif %}
+
+    <label>Photo URL:
+        <input type="text" name="photo" value="{{ caregiver.photo if caregiver else '' }}">
+    </label><br>
+
+    <label>Gender:
+    <select name="gender">
+        <option value="Female"
+            {% if caregiver and caregiver.gender == 'Female' %}selected{% endif %}>
+            Female
+        </option>
+        <option value="Male"
+            {% if caregiver and caregiver.gender == 'Male' %}selected{% endif %}>
+            Male
+        </option>
+        <!-- add more if your CHECK allows them -->
+    </select>
+    </label><br>
+
+    <label>Caregiving type:
+    <select name="caregiving_type" required>
+        <!-- CHANGE the values below to match your CHECK constraint exactly -->
+        <option value="babysitter"
+            {% if caregiver and caregiver.caregiving_type == 'babysitter' %}selected{% endif %}>
+            babysitter
+        </option>
+        <option value="elderly"
+            {% if caregiver and caregiver.caregiving_type == 'elderly' %}selected{% endif %}>
+            caregiver for elderly
+        </option>
+        <option value="playmate"
+            {% if caregiver and caregiver.caregiving_type == 'playmate' %}selected{% endif %}>
+            playmate for children
+        </option>
+    </select>
+    </label><br>
+
+
+    <label>Hourly rate:
+        <input type="number" step="0.01" name="hourly_rate" value="{{ caregiver.hourly_rate if caregiver else '' }}">
+    </label><br><br>
+
+    <button type="submit">Save</button>
+    <a href="{{ url_for('list_caregivers') }}">Cancel</a>
+</form>
+{% endblock %}

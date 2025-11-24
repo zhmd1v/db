@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if action == 'create' %}Create Member{% else %}Edit Member{% endif %}</h2>
+<form method="post">
+    {% if action == 'create' %}
+    <label>Linked User:
+        <select name="member_user_id" required>
+            {% for u in users %}
+            <option value="{{ u.user_id }}">{{ u.user_id }} - {{ u.given_name }} {{ u.surname }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+    {% else %}
+    <p>User ID: {{ member.member_user_id }} ({{ member.user.given_name }} {{ member.user.surname }})</p>
+    {% endif %}
+
+    <label>House rules:<br>
+        <textarea name="house_rules" rows="3" cols="40">{{ member.house_rules if member else '' }}</textarea>
+    </label><br>
+
+    <label>Dependent description:<br>
+        <textarea name="dependent_description" rows="3" cols="40">{{ member.dependent_description if member else '' }}</textarea>
+    </label><br><br>
+
+    <button type="submit">Save</button>
+    <a href="{{ url_for('list_members') }}">Cancel</a>
+</form>
+{% endblock %}

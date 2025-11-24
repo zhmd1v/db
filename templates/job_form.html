@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if action == 'create' %}Create Job{% else %}Edit Job{% endif %}</h2>
+<form method="post">
+    <label>Member:
+        <select name="member_user_id" required>
+            {% for m in members %}
+            <option value="{{ m.member_user_id }}"
+                {% if job and job.member_user_id == m.member_user_id %}selected{% endif %}>
+                {{ m.member_user_id }} - {{ m.user.given_name }} {{ m.user.surname }}
+            </option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <label>Required caregiving type:
+    <select name="required_caregiving_type">
+        <option value="babysitter"
+            {% if job and job.required_caregiving_type == 'babysitter' %}selected{% endif %}>
+            babysitter
+        </option>
+        <option value="elderly"
+            {% if job and job.required_caregiving_type == 'elderly' %}selected{% endif %}>
+            caregiver for elderly
+        </option>
+        <option value="playmate"
+            {% if job and job.required_caregiving_type == 'playmate' %}selected{% endif %}>
+            playmate for children
+        </option>
+    </select>
+    </label><br>
+
+    <label>Other requirements:<br>
+        <textarea name="other_requirements" rows="3" cols="40">{{ job.other_requirements if job else '' }}</textarea>
+    </label><br>
+
+    <label>Date posted:
+        <input type="date" name="date_posted" value="{{ job.date_posted if job and job.date_posted else '' }}">
+    </label><br><br>
+
+    <button type="submit">Save</button>
+    <a href="{{ url_for('list_jobs') }}">Cancel</a>
+</form>
+{% endblock %}

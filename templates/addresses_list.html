@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Addresses</h2>
+<a href="{{ url_for('create_address') }}">Create address</a>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Member ID</th><th>Name</th><th>House #</th><th>Street</th><th>Town</th><th>Actions</th>
+    </tr>
+    {% for a in addresses %}
+    <tr>
+        <td>{{ a.member_user_id }}</td>
+        <td>{{ a.member.user.given_name }} {{ a.member.user.surname }}</td>
+        <td>{{ a.house_number }}</td>
+        <td>{{ a.street }}</td>
+        <td>{{ a.town }}</td>
+        <td>
+            <a href="{{ url_for('edit_address', member_user_id=a.member_user_id) }}">Edit</a>
+            <form action="{{ url_for('delete_address', member_user_id=a.member_user_id) }}"
+                  method="post" style="display:inline">
+                <button type="submit" onclick="return confirm('Delete address?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

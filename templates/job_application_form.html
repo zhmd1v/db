@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{% if action == 'create' %}Create Job Application{% else %}Edit Job Application{% endif %}</h2>
+<form method="post">
+    {% if action == 'create' %}
+    <label>Caregiver:
+        <select name="caregiver_user_id" required>
+            {% for c in caregivers %}
+            <option value="{{ c.caregiver_user_id }}">
+                {{ c.caregiver_user_id }} - {{ c.user.given_name }} {{ c.user.surname }}
+            </option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <label>Job:
+        <select name="job_id" required>
+            {% for j in jobs %}
+            <option value="{{ j.job_id }}">{{ j.job_id }} - {{ j.required_caregiving_type }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+    {% else %}
+    <p>Caregiver: {{ application.caregiver_user_id }} - {{ application.caregiver.user.given_name }} {{ application.caregiver.user.surname }}</p>
+    <p>Job ID: {{ application.job_id }}</p>
+    {% endif %}
+
+    <label>Date applied:
+        <input type="date" name="date_applied" value="{{ application.date_applied if application and application.date_applied else '' }}">
+    </label><br><br>
+
+    <button type="submit">Save</button>
+    <a href="{{ url_for('list_job_applications') }}">Cancel</a>
+</form>
+{% endblock %}

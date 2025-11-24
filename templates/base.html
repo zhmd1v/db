@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Caregivers Platform – Admin CRUD</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Caregivers Platform – Admin Panel</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('list_users') }}">Users</a>
+            <a href="{{ url_for('list_caregivers') }}">Caregivers</a>
+            <a href="{{ url_for('list_members') }}">Members</a>
+            <a href="{{ url_for('list_addresses') }}">Addresses</a>
+            <a href="{{ url_for('list_jobs') }}">Jobs</a>
+            <a href="{{ url_for('list_job_applications') }}">Job Applications</a>
+            <a href="{{ url_for('list_appointments') }}">Appointments</a>
+        </nav>
+        <hr>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
